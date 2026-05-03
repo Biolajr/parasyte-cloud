@@ -833,13 +833,17 @@ async function handleForm(e) {
 
 // Custom cursor - desktop only
 if(window.matchMedia('(hover:hover)').matches){
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  cur.style.opacity = '0';
-  ring.style.opacity = '0';
+  const cur = document.createElement('div');
+  cur.id = 'cursor';
+  const ring = document.createElement('div');
+  ring.id = 'cursor-ring';
+  let started = false;
   document.addEventListener('mousemove', e => {
-    cur.style.opacity = '1';
-    ring.style.opacity = '1';
+    if(!started){
+      document.body.appendChild(cur);
+      document.body.appendChild(ring);
+      started = true;
+    }
     cur.style.left = e.clientX + 'px';
     cur.style.top = e.clientY + 'px';
     setTimeout(() => {
