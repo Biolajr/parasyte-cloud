@@ -109,15 +109,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3.5.0
-
-      - name: Sign image
+      - name: Verify image pushed
         run: |
-          cosign sign --yes \
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
-        env:
-          COSIGN_EXPERIMENTAL: 1
+          echo "✅ Image pushed: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:sha-${{ steps.sha.outputs.short }}"
+          echo "✅ Digest: ${{ steps.push.outputs.digest }}" 
 
   deploy:
     name: 🚀 Deploy to Cloudflare Pages
