@@ -1,4 +1,4 @@
-// PArAsYtE scripts v3
+// PArAsYtE scripts v4
 if(window.matchMedia('(hover:hover)').matches){
 var cur=document.createElement('div');
 cur.id='cur';
