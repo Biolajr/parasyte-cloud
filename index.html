@@ -425,9 +425,21 @@ footer{
   font-family:var(--font-mono);font-size:8px;letter-spacing:2px;color:var(--g4);
 }
 .status-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:dotPulse 1.5s ease-in-out infinite}
+
+/* Custom cursor - desktop only */
+@media(hover:hover){
+  *{cursor:none!important}
+  #cursor{position:fixed;width:10px;height:10px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s;mix-blend-mode:screen}
+  #cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(0,229,216,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease}
+}
+#cursor{display:none}
+#cursor-ring{display:none}
+@media(hover:hover){#cursor{display:block}#cursor-ring{display:block}}
 </style>
 </head>
 <body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
 <!-- Custom cursor -->
 
@@ -819,6 +831,30 @@ async function handleForm(e) {
     }, 4000);
   }
 }, 3000);
+}
+
+// Custom cursor - desktop only
+if(window.matchMedia('(hover:hover)').matches){
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cur.style.transform='translate(-50%,-50%) scale(2.5)';
+      cur.style.background='var(--orange)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cur.style.transform='translate(-50%,-50%) scale(1)';
+      cur.style.background='var(--teal)';
+    });
+  });
 }
 </script>
 </body>
