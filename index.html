@@ -855,5 +855,33 @@ document.addEventListener('mousemove',function(e){
   _cur.style.left=e.clientX+'px';_cur.style.top=e.clientY+'px';
   setTimeout(function(){_ring.style.left=e.clientX+'px';_ring.style.top=e.clientY+'px';},80);
 });
+
+// ── Hamburger menu
+var _hb = document.getElementById('hamburger');
+var _nl = document.querySelector('.nav-links');
+var _nc = document.querySelector('.nav-cta');
+if(_hb){
+  _hb.addEventListener('click', function(){
+    var open = _nl.style.display === 'flex';
+    _nl.style.display = open ? 'none' : 'flex';
+    _nl.style.flexDirection = 'column';
+    _nl.style.position = 'absolute';
+    _nl.style.top = '70px';
+    _nl.style.right = '20px';
+    _nl.style.background = '#000';
+    _nl.style.padding = '20px';
+    _nl.style.gap = '20px';
+    _nl.style.border = '1px solid #1a1a1a';
+    _nl.style.zIndex = '200';
+    if(_nc) _nc.style.display = open ? 'none' : 'block';
+  });
+  // Close menu when link clicked
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click', function(){
+      _nl.style.display = 'none';
+      if(_nc) _nc.style.display = 'none';
+    });
+  });
+}
 </script>
 </body>
