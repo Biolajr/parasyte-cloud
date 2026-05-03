@@ -1,8 +1,8 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine3.21 AS builder
 WORKDIR /build
 COPY index.html .
 
-FROM nginx:1.27-alpine
+FROM nginx:1.27.5-alpine3.21
 
 RUN addgroup -g 1001 -S parasyte && \
     adduser -u 1001 -S parasyte -G parasyte

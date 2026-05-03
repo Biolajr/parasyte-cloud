@@ -1,0 +1,6 @@
+name = "parasyte-contact"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+# RESEND_API_KEY set via secret, not here
