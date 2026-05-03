@@ -837,7 +837,11 @@ async function handleForm(e) {
 if(window.matchMedia('(hover:hover)').matches){
   const cur = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
+  cur.style.opacity = '0';
+  ring.style.opacity = '0';
   document.addEventListener('mousemove', e => {
+    cur.style.opacity = '1';
+    ring.style.opacity = '1';
     cur.style.left = e.clientX + 'px';
     cur.style.top = e.clientY + 'px';
     setTimeout(() => {
