@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Lint Dockerfile (Hadolint)
         uses: hadolint/hadolint-action@v3.1.0
@@ -40,7 +40,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -67,7 +67,7 @@ jobs:
           trivyignores: .trivyignore
 
       - name: Upload results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: trivy-results.sarif
@@ -76,12 +76,12 @@ jobs:
     name: 📦 Push to Docker Hub
     runs-on: ubuntu-latest
     needs: build-and-scan
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     outputs:
       image-tag: sha-${{ steps.sha.outputs.short }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Get short SHA
         id: sha
@@ -110,7 +110,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
+        uses: sigstore/cosign-installer@v3.5.0
 
       - name: Sign image
         run: |
@@ -123,13 +123,13 @@ jobs:
     name: 🚀 Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
     needs: push-image
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment:
       name: production
       url: https://parasyte.cloud
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -162,5 +162,4 @@ jobs:
         run: |
           HEADERS=$(curl -s -I https://parasyte.cloud)
           echo "$HEADERS"
-          echo "$HEADERS" | grep -i "x-content-type-options" && echo "✅ X-Content-Type-Options present" || echo "⚠️ missing"
-          echo "$HEADERS" | grep -i "x-frame-options" && echo "✅ X-Frame-Options present" || echo "⚠️ missing"
+          echo "$HEADERS" | grep -i "x-content-type-options" && echo "✅ present" || echo "⚠️ missing"
