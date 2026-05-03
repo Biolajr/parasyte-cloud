@@ -4,6 +4,9 @@ COPY index.html .
 
 FROM nginx:1.27.5-alpine3.21
 
+# Upgrade all packages to get latest security patches
+RUN apk upgrade --no-cache
+
 RUN addgroup -g 1001 -S parasyte && \
     adduser -u 1001 -S parasyte -G parasyte
 
