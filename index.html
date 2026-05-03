@@ -66,7 +66,7 @@ body::before{
 .teal{color:var(--teal)}.orange{color:var(--orange)}.gold{color:var(--gold)}
 .grad-rule{height:1px;background:linear-gradient(90deg,transparent,var(--teal),var(--g4) 50%,var(--orange),transparent);animation:gradRule 3s ease-in-out infinite}
 .section-label{font-family:var(--font-mono);font-size:9px;letter-spacing:5px;color:var(--g4);text-transform:uppercase;margin-bottom:12px}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 /* ══════════════════════════════════
@@ -131,7 +131,7 @@ nav.scrolled{background:rgba(0,0,0,.97);border-bottom-color:rgba(0,229,216,.18)}
   display:grid;grid-template-columns:1fr 1fr;
   align-items:center;gap:60px;max-width:1100px;width:100%;
 }
-.hero-text{animation:fadeUp .9s ease both}
+.hero-text{animation:fadeUp .9s ease both;opacity:1}
 .hero-eyebrow{
   font-family:var(--font-mono);font-size:9px;letter-spacing:5px;
   color:var(--teal);text-transform:uppercase;margin-bottom:20px;
