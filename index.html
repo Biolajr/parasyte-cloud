@@ -392,6 +392,7 @@ footer {
 .fade-in.visible { opacity:1; transform:translateY(0) }
 </style>
 <link rel="manifest" href="https://app.parasyte.cloud/manifest.json">
+<link rel="manifest" href="https://app.parasyte.cloud/manifest.json">
 </head>
 <body>
 
@@ -431,6 +432,7 @@ footer {
   <div class="hero-actions">
     <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request Access</button>
     <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Learn More</button>
+    <button id="installBtn" class="btn-secondary" style="display:none;border-color:var(--teal);color:var(--teal)" onclick="installApp()">↓ Install App</button>
     <button id="installBtn" class="btn-secondary" style="display:none;border-color:var(--teal);color:var(--teal)" onclick="installApp()">↓ Install App</button>
   </div>
 </section>
@@ -593,6 +595,24 @@ function installApp() {
     deferredPrompt = null;
     if (btn) btn.style.display = 'none';
   });
+}
+window.addEventListener('appinstalled', function() {
+  var btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'none';
+});
+
+var deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  var btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'inline-flex';
+});
+function installApp() {
+  var btn = document.getElementById('installBtn');
+  if (!deferredPrompt) { window.open('https://app.parasyte.cloud', '_blank'); return; }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function() { deferredPrompt = null; if (btn) btn.style.display = 'none'; });
 }
 window.addEventListener('appinstalled', function() {
   var btn = document.getElementById('installBtn');
