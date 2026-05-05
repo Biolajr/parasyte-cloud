@@ -619,5 +619,50 @@ window.addEventListener('appinstalled', function() {
   if (btn) btn.style.display = 'none';
 });
 </script>
+
+<script>
+// ===== FORCE INSTALL BUTTON (DEBUG MODE) =====
+(function() {
+  console.log("FORCE INSTALL INIT");
+
+  var btn = document.createElement('button');
+  btn.id = "installBtn";
+  btn.innerText = "INSTALL APP";
+
+  btn.style.position = "fixed";
+  btn.style.bottom = "100px";
+  btn.style.right = "20px";
+  btn.style.padding = "12px 16px";
+  btn.style.background = "#00c8a0";
+  btn.style.color = "#000";
+  btn.style.border = "none";
+  btn.style.borderRadius = "10px";
+  btn.style.fontWeight = "700";
+  btn.style.zIndex = "999999";
+
+  document.body.appendChild(btn);
+
+  var deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log("INSTALL AVAILABLE");
+  });
+
+  btn.onclick = function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function() {
+        deferredPrompt = null;
+      });
+    } else {
+      window.open('https://app.parasyte.cloud', '_blank');
+    }
+  };
+})();
+</script>
+<!-- FORCE_INSTALL_INJECT -->
+
 </body>
 </html>
