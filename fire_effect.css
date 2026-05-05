@@ -1,0 +1,42 @@
+.logo-fire {
+  position: relative;
+  width: 120px;
+  margin: auto;
+}
+
+.logo-fire img {
+  width: 100%;
+  display: block;
+  z-index: 2;
+  position: relative;
+}
+
+/* Blue flame */
+.logo-fire::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(0,200,255,0.4), transparent 70%);
+  filter: blur(20px);
+  animation: flameBlue 2s infinite ease-in-out;
+}
+
+/* Orange flame */
+.logo-fire::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(255,120,0,0.4), transparent 70%);
+  filter: blur(20px);
+  animation: flameOrange 2s infinite ease-in-out;
+}
+
+@keyframes flameBlue {
+  0%,100% { transform: scale(1); opacity: .6; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes flameOrange {
+  0%,100% { transform: scale(1.1); opacity: .6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
